@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { sql } from 'drizzle-orm';
 import {
   DRIZZLE_PROVIDER,
@@ -34,6 +34,7 @@ export class OrdersService {
       .where(
         sql`${orders.id} = ${orderId} and ${orders.customerId} = ${userId}`,
       );
+    if (!order) throw new NotFoundException('order not found');
 
     return order;
   }
