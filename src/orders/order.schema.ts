@@ -6,10 +6,10 @@ import { CreateOrderDto } from './create-order.dto';
 export const orders = pgTable('orders', {
   id: varchar('id', { length: 21 }).primaryKey(),
   createdAt: timestamp('created_at', { withTimezone: true }).defaultNow(),
-  pickup: varchar('pickup'),
-  destination: varchar('destination'),
-  status: varchar('status'),
-  customerId: varchar('customer_id'),
+  pickup: varchar('pickup').notNull(),
+  destination: varchar('destination').notNull(),
+  status: varchar('status').notNull().default('waiting'),
+  customerId: varchar('customer_id').notNull(),
   driverId: varchar('driver_id'),
 });
 
