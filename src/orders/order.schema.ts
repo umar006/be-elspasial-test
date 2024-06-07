@@ -2,6 +2,7 @@ import { InferSelectModel } from 'drizzle-orm';
 import { pgTable, timestamp, varchar } from 'drizzle-orm/pg-core';
 import { nanoid } from 'nanoid';
 import { CreateOrderDto } from './create-order.dto';
+import { users } from 'src/users/users.schema';
 
 export const orders = pgTable('orders', {
   id: varchar('id', { length: 21 }).primaryKey(),
@@ -9,8 +10,10 @@ export const orders = pgTable('orders', {
   pickup: varchar('pickup').notNull(),
   destination: varchar('destination').notNull(),
   status: varchar('status').notNull().default('waiting'),
-  customerId: varchar('customer_id').notNull(),
-  driverId: varchar('driver_id'),
+  customerId: varchar('customer_id')
+    .notNull()
+    .references(() => users.id),
+  driverId: varchar('driver_id').references(() => users.id),
 });
 
 export class Order implements InferSelectModel<typeof orders> {
