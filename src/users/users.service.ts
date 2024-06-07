@@ -13,7 +13,7 @@ import {
   DRIZZLE_PROVIDER,
   DrizzlePostgres,
 } from 'src/database/drizzle.provider';
-import { CreateUserDto } from './create-user.dto';
+import { RegisterUserDto } from './create-user.dto';
 import { LoginDto } from './login.dto';
 import { User, users } from './users.schema';
 
@@ -25,7 +25,7 @@ export class UsersService {
     private readonly db: DrizzlePostgres,
   ) {}
 
-  async register(createUserDto: CreateUserDto) {
+  async register(createUserDto: RegisterUserDto) {
     const user = User.fromDto(createUserDto);
     await user.encryptPassword();
 

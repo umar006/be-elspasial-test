@@ -1,5 +1,5 @@
 import { Body, Controller, Post } from '@nestjs/common';
-import { CreateUserDto } from './create-user.dto';
+import { RegisterUserDto } from './create-user.dto';
 import { LoginDto } from './login.dto';
 import { UsersService } from './users.service';
 
@@ -8,8 +8,8 @@ export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Post('register')
-  async register(@Body() createUserDto: CreateUserDto) {
-    const resp = await this.usersService.register(createUserDto);
+  async register(@Body() registerDto: RegisterUserDto) {
+    const resp = await this.usersService.register(registerDto);
     return { message: resp };
   }
 
