@@ -25,7 +25,7 @@ export class UsersService {
     private readonly db: DrizzlePostgres,
   ) {}
 
-  async create(createUserDto: CreateUserDto) {
+  async register(createUserDto: CreateUserDto) {
     const user = User.fromDto(createUserDto);
     await user.encryptPassword();
 
