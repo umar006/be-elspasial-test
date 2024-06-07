@@ -13,7 +13,7 @@ export class OrdersService {
     private readonly db: DrizzlePostgres,
   ) {}
 
-  async createOrder(dto: CreateOrderDto) {
+  async createOrder(dto: CreateOrderDto): Promise<string> {
     const order = Order.fromDto(dto);
     // TODO: get user id from auth
     order.assignUser('cUmGtg1ZSpI_EiHdySDLq');
