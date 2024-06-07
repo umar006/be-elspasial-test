@@ -1,3 +1,4 @@
+import * as bcrypt from 'bcrypt';
 import { InferSelectModel } from 'drizzle-orm';
 import { pgTable, timestamp, varchar } from 'drizzle-orm/pg-core';
 import { nanoid } from 'nanoid';
@@ -27,5 +28,10 @@ export class User implements InferSelectModel<typeof users> {
     user.role = 'user';
 
     return user;
+  }
+
+  async encryptPassword(): Promise<void> {
+    const hashedPwd = await bcrypt.hash(this.password, 10);
+    this.password = hashedPwd;
   }
 }
