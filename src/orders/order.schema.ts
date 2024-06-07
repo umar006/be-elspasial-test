@@ -39,3 +39,5 @@ export class Order implements InferSelectModel<typeof orders> {
     this.customerId = userId;
   }
 }
+
+export class OrderResponse implements Partial<Order> {}
