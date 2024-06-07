@@ -2,7 +2,7 @@ import * as bcrypt from 'bcrypt';
 import { InferSelectModel } from 'drizzle-orm';
 import { pgTable, timestamp, varchar } from 'drizzle-orm/pg-core';
 import { nanoid } from 'nanoid';
-import { RegisterUserDto } from './create-user.dto';
+import { RegisterUserDto } from './register-user.dto';
 
 export const users = pgTable('users', {
   id: varchar('id', { length: 21 }).primaryKey(),

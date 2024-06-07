@@ -13,8 +13,8 @@ import {
   DRIZZLE_PROVIDER,
   DrizzlePostgres,
 } from 'src/database/drizzle.provider';
-import { RegisterUserDto } from './create-user.dto';
-import { LoginDto } from './login.dto';
+import { LoginDto } from './login-user.dto';
+import { RegisterUserDto } from './register-user.dto';
 import { User, users } from './users.schema';
 
 @Injectable()
