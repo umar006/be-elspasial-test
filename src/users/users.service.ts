@@ -25,7 +25,7 @@ export class UsersService {
     private readonly db: DrizzlePostgres,
   ) {}
 
-  async register(createUserDto: RegisterUserDto) {
+  async register(createUserDto: RegisterUserDto): Promise<string> {
     const user = User.fromDto(createUserDto);
     await user.encryptPassword();
 
@@ -44,7 +44,7 @@ export class UsersService {
     return 'success create user';
   }
 
-  async login(loginDto: LoginDto) {
+  async login(loginDto: LoginDto): Promise<string> {
     const [user] = await this.db
       .select()
       .from(users)

@@ -18,7 +18,7 @@ export class DriversService {
     private readonly db: DrizzlePostgres,
   ) {}
 
-  async register(registerDto: RegisterDriverDto) {
+  async register(registerDto: RegisterDriverDto): Promise<string> {
     const driver = Driver.fromDto(registerDto);
     await driver.encryptPassword();
 
@@ -27,7 +27,7 @@ export class DriversService {
     return 'success register driver';
   }
 
-  async login(loginDto: LoginDriverDto) {
+  async login(loginDto: LoginDriverDto): Promise<string> {
     const [driver] = await this.db
       .select()
       .from(users)

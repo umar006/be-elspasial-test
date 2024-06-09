@@ -9,7 +9,9 @@ export class OrdersController {
   constructor(private readonly ordersService: OrdersService) {}
 
   @Post()
-  async createOrder(@Body() createOrderDto: CreateOrderDto) {
+  async createOrder(
+    @Body() createOrderDto: CreateOrderDto,
+  ): Promise<{ message: string }> {
     const resp = await this.ordersService.createOrder(createOrderDto);
     return { message: resp };
   }
@@ -29,7 +31,7 @@ export class OrdersController {
   }
 
   @Put(':id/accept')
-  async acceptOrder(@Param('id') id: string) {
+  async acceptOrder(@Param('id') id: string): Promise<{ message: string }> {
     const resp = await this.ordersService.acceptOrderById(id);
     return { message: resp };
   }
