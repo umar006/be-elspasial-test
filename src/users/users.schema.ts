@@ -2,6 +2,7 @@ import * as bcrypt from 'bcrypt';
 import { InferSelectModel } from 'drizzle-orm';
 import { pgTable, timestamp, varchar } from 'drizzle-orm/pg-core';
 import { nanoid } from 'nanoid';
+import { Role } from 'src/auth/role.enum';
 import { RegisterDriverDto } from './register-driver.dto';
 import { RegisterUserDto } from './register-user.dto';
 
@@ -18,7 +19,7 @@ export class User implements InferSelectModel<typeof users> {
   createdAt: Date;
   username: string;
   password: string;
-  role: string;
+  role: Role;
 
   static fromDto(dto: RegisterUserDto): User {
     const user = new User();
@@ -26,7 +27,7 @@ export class User implements InferSelectModel<typeof users> {
     user.createdAt = new Date();
     user.username = dto.username;
     user.password = dto.password;
-    user.role = 'user';
+    user.role = Role.User;
 
     return user;
   }
@@ -50,7 +51,7 @@ export class Driver implements InferSelectModel<typeof users> {
     user.createdAt = new Date();
     user.username = dto.username;
     user.password = dto.password;
-    user.role = 'driver';
+    user.role = Role.Driver;
 
     return user;
   }
