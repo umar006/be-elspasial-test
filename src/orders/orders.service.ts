@@ -1,5 +1,5 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
-import { sql } from 'drizzle-orm';
+import { eq, sql } from 'drizzle-orm';
 import {
   DRIZZLE_PROVIDER,
   DrizzlePostgres,
@@ -37,5 +37,14 @@ export class OrdersService {
     if (!order) throw new NotFoundException('order not found');
 
     return order;
+  }
+
+  async getOrders(): Promise<OrderResponse[]> {
+    const orderList = await this.db
+      .select()
+      .from(orders)
+      .where(eq(orders.status, 'waiting'));
+
+    return orderList;
   }
 }

@@ -18,4 +18,10 @@ export class OrdersController {
     const resp = await this.ordersService.getOrderById(orderId);
     return resp;
   }
+
+  @Get()
+  async getOrders(): Promise<OrderResponse[]> {
+    const resp = await this.ordersService.getOrders();
+    return resp;
+  }
 }
