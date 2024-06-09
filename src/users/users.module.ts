@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ConfigType } from '@nestjs/config';
 import { JwtModule, JwtModuleOptions } from '@nestjs/jwt';
-import authConfig from './auth.config';
+import authConfig from 'src/auth/auth.config';
 import { DriversController } from './drivers.controller';
 import { DriversService } from './drivers.service';
 import { UsersController } from './users.controller';
