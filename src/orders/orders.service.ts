@@ -58,10 +58,12 @@ export class OrdersService {
     // TODO: get driver id from auth
     const driverId = 'HGNmTiIRYdoNqeNn6Ef-k';
 
-    await this.db
+    const [order] = await this.db
       .update(orders)
       .set({ status: OrderStatus.Processing, driverId: driverId })
-      .where(eq(orders.id, orderId));
+      .where(eq(orders.id, orderId))
+      .returning();
+    if (!order) throw new NotFoundException('order is not found');
 
     return 'success accept order';
   }
