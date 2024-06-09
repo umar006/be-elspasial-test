@@ -5,6 +5,7 @@ import {
   DrizzlePostgres,
 } from 'src/database/drizzle.provider';
 import { CreateOrderDto } from './create-order.dto';
+import { OrderQueryParams } from './order.param';
 import { Order, OrderResponse, orders } from './order.schema';
 
 @Injectable()
@@ -39,11 +40,15 @@ export class OrdersService {
     return order;
   }
 
-  async getOrders(): Promise<OrderResponse[]> {
-    const orderList = await this.db
-      .select()
-      .from(orders)
-      .where(eq(orders.status, 'waiting'));
+  async getOrders(queryParams: OrderQueryParams): Promise<OrderResponse[]> {
+    const query = this.db.select().from(orders);
+
+    const orderStatus = ['waiting', 'processing', 'completed'].includes(
+      queryParams.status,
+    );
+    if (orderStatus) query.where(eq(orders.status, queryParams.status));
+
+    const orderList = await query;
 
     return orderList;
   }

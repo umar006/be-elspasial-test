@@ -1,5 +1,6 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
 import { CreateOrderDto } from './create-order.dto';
+import { OrderQueryParams } from './order.param';
 import { OrderResponse } from './order.schema';
 import { OrdersService } from './orders.service';
 
@@ -20,8 +21,10 @@ export class OrdersController {
   }
 
   @Get()
-  async getOrders(): Promise<OrderResponse[]> {
-    const resp = await this.ordersService.getOrders();
+  async getOrders(
+    @Query() queryParams: OrderQueryParams,
+  ): Promise<OrderResponse[]> {
+    const resp = await this.ordersService.getOrders(queryParams);
     return resp;
   }
 }
