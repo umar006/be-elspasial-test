@@ -5,6 +5,7 @@ import databaseConfig from './database/database.config';
 import { DatabaseModule } from './database/database.module';
 import { OrdersModule } from './orders/orders.module';
 import { UsersModule } from './users/users.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { UsersModule } from './users/users.module';
     DatabaseModule,
     UsersModule,
     OrdersModule,
+    AuthModule,
   ],
   controllers: [],
   providers: [],
