@@ -7,6 +7,7 @@ import {
 import { CreateOrderDto } from './create-order.dto';
 import { OrderQueryParams } from './order.param';
 import { Order, OrderResponse, orders } from './order.schema';
+import { OrderStatus } from './order.enum';
 
 @Injectable()
 export class OrdersService {
@@ -51,5 +52,17 @@ export class OrdersService {
     const orderList = await query;
 
     return orderList;
+  }
+
+  async acceptOrderById(orderId: string): Promise<string> {
+    // TODO: get driver id from auth
+    const driverId = 'HGNmTiIRYdoNqeNn6Ef-k';
+
+    await this.db
+      .update(orders)
+      .set({ status: OrderStatus.Processing, driverId: driverId })
+      .where(eq(orders.id, orderId));
+
+    return 'success accept order';
   }
 }
