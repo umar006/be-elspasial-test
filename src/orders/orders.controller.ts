@@ -18,7 +18,10 @@ import { CreateOrderDto } from './create-order.dto';
 import { OrderQueryParams } from './order.param';
 import { Order } from './order.schema';
 import { OrdersService } from './orders.service';
-import { ApiCreateOrdersResponse } from './custom-decorator.swagger';
+import {
+  ApiCreateOrdersResponse,
+  ApiGetOrderByIdResponse,
+} from './custom-decorator.swagger';
 
 @ApiTags('orders')
 @ApiBearerAuth()
@@ -39,6 +42,7 @@ export class OrdersController {
     return { message: resp };
   }
 
+  @ApiGetOrderByIdResponse()
   @Roles(Role.User)
   @Get(':id')
   async getOrderById(
