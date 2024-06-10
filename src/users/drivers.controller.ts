@@ -1,5 +1,12 @@
 import { Body, Controller, HttpCode, HttpStatus, Post } from '@nestjs/common';
-import { ApiExtraModels, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBadRequestResponse,
+  ApiConflictResponse,
+  ApiCreatedResponse,
+  ApiExtraModels,
+  ApiInternalServerErrorResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 import { DriversService } from './drivers.service';
 import { LoginDriverDto } from './login-driver.dto';
 import { RegisterDriverDto } from './register-driver.dto';
@@ -12,6 +19,43 @@ export class DriversController {
   constructor(private readonly driversService: DriversService) {}
 
   @Post('register')
+  @ApiCreatedResponse({
+    description: 'success register driver',
+    schema: {
+      example: {
+        message: 'success create driver',
+      },
+    },
+  })
+  @ApiBadRequestResponse({
+    description: 'validation error',
+    schema: {
+      example: {
+        message: ['username should not be empty'],
+        error: 'Bad Request',
+        statusCode: 400,
+      },
+    },
+  })
+  @ApiConflictResponse({
+    description: 'username already exists',
+    schema: {
+      example: {
+        message: 'username already exists',
+        error: 'Conflict',
+        statusCode: 409,
+      },
+    },
+  })
+  @ApiInternalServerErrorResponse({
+    description: 'something went wrong',
+    schema: {
+      example: {
+        message: 'Internal Server Error',
+        statusCode: 500,
+      },
+    },
+  })
   async register(
     @Body() registerDto: RegisterDriverDto,
   ): Promise<{ message: string }> {
