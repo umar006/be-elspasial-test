@@ -5,6 +5,7 @@ import {
   ApiCreatedResponse,
   ApiInternalServerErrorResponse,
   ApiOkResponse,
+  ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
 
 export const ApiRegisterResponse = () => {
@@ -66,6 +67,16 @@ export const ApiLoginResponse = () => {
           message: ['username should not be empty'],
           error: 'Bad Request',
           statusCode: 400,
+        },
+      },
+    }),
+    ApiUnauthorizedResponse({
+      description: 'unauthorized',
+      schema: {
+        example: {
+          message: 'username or password is wrong',
+          error: 'Unauthorized',
+          statusCode: 401,
         },
       },
     }),
