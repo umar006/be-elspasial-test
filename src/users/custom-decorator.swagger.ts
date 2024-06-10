@@ -10,10 +10,10 @@ import {
 export const ApiRegisterResponse = () => {
   return applyDecorators(
     ApiCreatedResponse({
-      description: 'success register driver',
+      description: 'success register',
       schema: {
         example: {
-          message: 'success create driver',
+          message: 'success create user',
         },
       },
     }),
