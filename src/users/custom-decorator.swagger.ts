@@ -4,6 +4,7 @@ import {
   ApiConflictResponse,
   ApiCreatedResponse,
   ApiInternalServerErrorResponse,
+  ApiOkResponse,
 } from '@nestjs/swagger';
 
 export const ApiRegisterResponse = () => {
@@ -33,6 +34,38 @@ export const ApiRegisterResponse = () => {
           message: 'username already exists',
           error: 'Conflict',
           statusCode: 409,
+        },
+      },
+    }),
+    ApiInternalServerErrorResponse({
+      description: 'something went wrong',
+      schema: {
+        example: {
+          message: 'Internal Server Error',
+          statusCode: 500,
+        },
+      },
+    }),
+  );
+};
+
+export const ApiLoginResponse = () => {
+  return applyDecorators(
+    ApiOkResponse({
+      description: 'success login user',
+      schema: {
+        example: {
+          token: 'longjwttoken',
+        },
+      },
+    }),
+    ApiBadRequestResponse({
+      description: 'validation error',
+      schema: {
+        example: {
+          message: ['username should not be empty'],
+          error: 'Bad Request',
+          statusCode: 400,
         },
       },
     }),

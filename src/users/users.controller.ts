@@ -1,12 +1,9 @@
 import { Body, Controller, HttpCode, HttpStatus, Post } from '@nestjs/common';
+import { ApiExtraModels, ApiTags } from '@nestjs/swagger';
 import {
-  ApiBadRequestResponse,
-  ApiExtraModels,
-  ApiInternalServerErrorResponse,
-  ApiOkResponse,
-  ApiTags,
-} from '@nestjs/swagger';
-import { ApiRegisterResponse } from './custom-decorator.swagger';
+  ApiLoginResponse,
+  ApiRegisterResponse,
+} from './custom-decorator.swagger';
 import { LoginDto } from './login-user.dto';
 import { RegisterUserDto } from './register-user.dto';
 import { User } from './users.schema';
@@ -28,33 +25,7 @@ export class UsersController {
   }
 
   @Post('login')
-  @ApiOkResponse({
-    description: 'success login user',
-    schema: {
-      example: {
-        token: 'longjwttoken',
-      },
-    },
-  })
-  @ApiBadRequestResponse({
-    description: 'validation error',
-    schema: {
-      example: {
-        message: ['username should not be empty'],
-        error: 'Bad Request',
-        statusCode: 400,
-      },
-    },
-  })
-  @ApiInternalServerErrorResponse({
-    description: 'something went wrong',
-    schema: {
-      example: {
-        message: 'Internal Server Error',
-        statusCode: 500,
-      },
-    },
-  })
+  @ApiLoginResponse()
   @HttpCode(HttpStatus.OK)
   async login(@Body() loginDto: LoginDto): Promise<{ token: string }> {
     const resp = await this.usersService.login(loginDto);
