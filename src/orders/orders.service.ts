@@ -1,13 +1,14 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { eq, sql } from 'drizzle-orm';
+import { JwtPayload } from 'src/auth/auth.type';
 import {
   DRIZZLE_PROVIDER,
   DrizzlePostgres,
 } from 'src/database/drizzle.provider';
 import { CreateOrderDto } from './create-order.dto';
+import { OrderStatus } from './order.enum';
 import { OrderQueryParams } from './order.param';
 import { Order, OrderResponse, orders } from './order.schema';
-import { OrderStatus } from './order.enum';
 
 @Injectable()
 export class OrdersService {
@@ -16,19 +17,20 @@ export class OrdersService {
     private readonly db: DrizzlePostgres,
   ) {}
 
-  async createOrder(dto: CreateOrderDto): Promise<string> {
+  async createOrder(dto: CreateOrderDto, user: JwtPayload): Promise<string> {
     const order = Order.fromDto(dto);
-    // TODO: get user id from auth
-    order.assignUser('cUmGtg1ZSpI_EiHdySDLq');
+    order.assignUser(user.sub);
 
     await this.db.insert(orders).values(order);
 
     return 'success create order';
   }
 
-  async getOrderById(orderId: string): Promise<OrderResponse> {
-    // TODO: get user id from auth
-    const userId = 'cUmGtg1ZSpI_EiHdySDLq';
+  async getOrderById(
+    orderId: string,
+    user: JwtPayload,
+  ): Promise<OrderResponse> {
+    const userId = user.sub;
 
     const [order] = await this.db
       .select()
@@ -54,9 +56,8 @@ export class OrdersService {
     return orderList;
   }
 
-  async acceptOrderById(orderId: string): Promise<string> {
-    // TODO: get driver id from auth
-    const driverId = 'HGNmTiIRYdoNqeNn6Ef-k';
+  async acceptOrderById(orderId: string, driver: JwtPayload): Promise<string> {
+    const driverId = driver.sub;
 
     const [order] = await this.db
       .update(orders)

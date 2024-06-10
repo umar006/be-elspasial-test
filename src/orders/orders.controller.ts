@@ -6,8 +6,10 @@ import {
   Post,
   Put,
   Query,
+  Req,
   UseGuards,
 } from '@nestjs/common';
+import { RequestWithUser } from 'src/auth/auth.type';
 import { JwtGuard } from 'src/auth/jwt.guard';
 import { Roles } from 'src/auth/role.decorator';
 import { Role } from 'src/auth/role.enum';
@@ -25,15 +27,21 @@ export class OrdersController {
   @Post()
   async createOrder(
     @Body() createOrderDto: CreateOrderDto,
+    @Req() request: RequestWithUser,
   ): Promise<{ message: string }> {
-    const resp = await this.ordersService.createOrder(createOrderDto);
+    const user = request.user;
+    const resp = await this.ordersService.createOrder(createOrderDto, user);
     return { message: resp };
   }
 
   @Roles(Role.User)
   @Get(':id')
-  async getOrderById(@Param('id') orderId: string): Promise<OrderResponse> {
-    const resp = await this.ordersService.getOrderById(orderId);
+  async getOrderById(
+    @Param('id') orderId: string,
+    @Req() request: RequestWithUser,
+  ): Promise<OrderResponse> {
+    const user = request.user;
+    const resp = await this.ordersService.getOrderById(orderId, user);
     return resp;
   }
 
@@ -48,8 +56,12 @@ export class OrdersController {
 
   @Roles(Role.Driver)
   @Put(':id/accept')
-  async acceptOrder(@Param('id') id: string): Promise<{ message: string }> {
-    const resp = await this.ordersService.acceptOrderById(id);
+  async acceptOrder(
+    @Param('id') id: string,
+    @Req() request: RequestWithUser,
+  ): Promise<{ message: string }> {
+    const driver = request.user;
+    const resp = await this.ordersService.acceptOrderById(id, driver);
     return { message: resp };
   }
 }
