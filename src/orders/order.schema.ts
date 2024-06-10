@@ -1,8 +1,8 @@
 import { InferSelectModel } from 'drizzle-orm';
 import { pgTable, timestamp, varchar } from 'drizzle-orm/pg-core';
 import { nanoid } from 'nanoid';
-import { CreateOrderDto } from './create-order.dto';
 import { users } from 'src/users/users.schema';
+import { CreateOrderDto } from './create-order.dto';
 
 export const orders = pgTable('orders', {
   id: varchar('id', { length: 21 }).primaryKey(),
