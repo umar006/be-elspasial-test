@@ -19,8 +19,9 @@ import { OrderQueryParams } from './order.param';
 import { Order } from './order.schema';
 import { OrdersService } from './orders.service';
 import {
-  ApiCreateOrdersResponse,
+  ApiCreateOrderResponse,
   ApiGetOrderByIdResponse,
+  ApiOrderErrorResponse,
 } from './custom-decorator.swagger';
 
 @ApiTags('orders')
@@ -30,7 +31,8 @@ import {
 export class OrdersController {
   constructor(private readonly ordersService: OrdersService) {}
 
-  @ApiCreateOrdersResponse()
+  @ApiCreateOrderResponse()
+  @ApiOrderErrorResponse()
   @Roles(Role.User)
   @Post()
   async createOrder(
@@ -43,6 +45,7 @@ export class OrdersController {
   }
 
   @ApiGetOrderByIdResponse()
+  @ApiOrderErrorResponse()
   @Roles(Role.User)
   @Get(':id')
   async getOrderById(
