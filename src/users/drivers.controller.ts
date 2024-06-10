@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, HttpCode, HttpStatus, Post } from '@nestjs/common';
 import { ApiExtraModels, ApiTags } from '@nestjs/swagger';
 import { DriversService } from './drivers.service';
 import { LoginDriverDto } from './login-driver.dto';
@@ -20,6 +20,7 @@ export class DriversController {
   }
 
   @Post('login')
+  @HttpCode(HttpStatus.OK)
   async login(@Body() loginDto: LoginDriverDto): Promise<{ token: string }> {
     const resp = await this.driversService.login(loginDto);
     return { token: resp };
