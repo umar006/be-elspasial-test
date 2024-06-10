@@ -3,8 +3,10 @@ import {
   ApiCreatedResponse,
   ApiForbiddenResponse,
   ApiInternalServerErrorResponse,
+  ApiNotFoundResponse,
   ApiOkResponse,
   ApiUnauthorizedResponse,
+  ApiUnprocessableEntityResponse,
 } from '@nestjs/swagger';
 
 export const ApiOrderErrorResponse = () => {
@@ -92,6 +94,39 @@ export const ApiGetOrdersResponse = () => {
             driverId: null,
           },
         ],
+      },
+    }),
+  );
+};
+
+export const ApiAcceptOrderResponse = () => {
+  return applyDecorators(
+    ApiCreatedResponse({
+      description: 'accept order',
+      schema: {
+        example: {
+          message: 'success accept order',
+        },
+      },
+    }),
+    ApiNotFoundResponse({
+      description: '',
+      schema: {
+        example: {
+          message: 'order is not found',
+          error: 'Not Found',
+          statusCode: 404,
+        },
+      },
+    }),
+    ApiUnprocessableEntityResponse({
+      description: 'order already accept',
+      schema: {
+        example: {
+          message: 'order already accept by another driver',
+          error: 'Unprocessable',
+          statusCode: 422,
+        },
       },
     }),
   );

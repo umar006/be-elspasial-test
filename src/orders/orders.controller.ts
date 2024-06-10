@@ -15,15 +15,16 @@ import { JwtGuard } from 'src/auth/jwt.guard';
 import { Roles } from 'src/auth/role.decorator';
 import { Role } from 'src/auth/role.enum';
 import { CreateOrderDto } from './create-order.dto';
-import { OrderQueryParams } from './order.param';
-import { Order } from './order.schema';
-import { OrdersService } from './orders.service';
 import {
+  ApiAcceptOrderResponse,
   ApiCreateOrderResponse,
   ApiGetOrderByIdResponse,
   ApiGetOrdersResponse,
   ApiOrderErrorResponse,
 } from './custom-decorator.swagger';
+import { OrderQueryParams } from './order.param';
+import { Order } from './order.schema';
+import { OrdersService } from './orders.service';
 
 @ApiTags('orders')
 @ApiBearerAuth()
@@ -67,6 +68,8 @@ export class OrdersController {
     return resp;
   }
 
+  @ApiAcceptOrderResponse()
+  @ApiOrderErrorResponse()
   @Roles(Role.Driver)
   @Put(':id/accept')
   async acceptOrder(
