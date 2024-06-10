@@ -9,19 +9,18 @@ import {
   Req,
   UseGuards,
 } from '@nestjs/common';
-import { ApiBearerAuth, ApiExtraModels, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { RequestWithUser } from 'src/auth/auth.type';
 import { JwtGuard } from 'src/auth/jwt.guard';
 import { Roles } from 'src/auth/role.decorator';
 import { Role } from 'src/auth/role.enum';
 import { CreateOrderDto } from './create-order.dto';
 import { OrderQueryParams } from './order.param';
-import { Order, OrderResponse } from './order.schema';
+import { Order } from './order.schema';
 import { OrdersService } from './orders.service';
 
 @ApiTags('orders')
 @ApiBearerAuth()
-@ApiExtraModels(Order)
 @UseGuards(JwtGuard)
 @Controller('orders')
 export class OrdersController {
@@ -43,7 +42,7 @@ export class OrdersController {
   async getOrderById(
     @Param('id') orderId: string,
     @Req() request: RequestWithUser,
-  ): Promise<OrderResponse> {
+  ): Promise<Order> {
     const user = request.user;
     const resp = await this.ordersService.getOrderById(orderId, user);
     return resp;
@@ -51,9 +50,7 @@ export class OrdersController {
 
   @Roles(Role.Driver)
   @Get()
-  async getOrders(
-    @Query() queryParams: OrderQueryParams,
-  ): Promise<OrderResponse[]> {
+  async getOrders(@Query() queryParams: OrderQueryParams): Promise<Order[]> {
     const resp = await this.ordersService.getOrders(queryParams);
     return resp;
   }

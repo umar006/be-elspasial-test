@@ -13,7 +13,7 @@ import {
 import { CreateOrderDto } from './create-order.dto';
 import { OrderStatus } from './order.enum';
 import { OrderQueryParams } from './order.param';
-import { Order, OrderResponse, orders } from './order.schema';
+import { Order, orders } from './order.schema';
 
 @Injectable()
 export class OrdersService {
@@ -31,10 +31,7 @@ export class OrdersService {
     return 'success create order';
   }
 
-  async getOrderById(
-    orderId: string,
-    user: JwtPayload,
-  ): Promise<OrderResponse> {
+  async getOrderById(orderId: string, user: JwtPayload): Promise<Order> {
     const userId = user.sub;
 
     const [order] = await this.db
@@ -48,7 +45,7 @@ export class OrdersService {
     return order;
   }
 
-  async getOrders(queryParams: OrderQueryParams): Promise<OrderResponse[]> {
+  async getOrders(queryParams: OrderQueryParams): Promise<Order[]> {
     const query = this.db.select().from(orders);
 
     const orderStatus = ['waiting', 'processing', 'completed'].includes(
