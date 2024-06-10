@@ -1,10 +1,12 @@
 import { Body, Controller, Post } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiExtraModels, ApiTags } from '@nestjs/swagger';
 import { DriversService } from './drivers.service';
 import { LoginDriverDto } from './login-driver.dto';
 import { RegisterDriverDto } from './register-driver.dto';
+import { Driver } from './users.schema';
 
 @ApiTags('drivers')
+@ApiExtraModels(Driver)
 @Controller('drivers')
 export class DriversController {
   constructor(private readonly driversService: DriversService) {}
