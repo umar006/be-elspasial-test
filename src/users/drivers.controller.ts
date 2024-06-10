@@ -15,8 +15,8 @@ import { Driver } from './users.schema';
 export class DriversController {
   constructor(private readonly driversService: DriversService) {}
 
-  @Post('register')
   @ApiRegisterResponse()
+  @Post('register')
   async register(
     @Body() registerDto: RegisterDriverDto,
   ): Promise<{ message: string }> {
@@ -24,8 +24,8 @@ export class DriversController {
     return { message: resp };
   }
 
-  @Post('login')
   @ApiLoginResponse()
+  @Post('login')
   @HttpCode(HttpStatus.OK)
   async login(@Body() loginDto: LoginDriverDto): Promise<{ token: string }> {
     const resp = await this.driversService.login(loginDto);

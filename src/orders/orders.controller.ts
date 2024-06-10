@@ -18,6 +18,7 @@ import { CreateOrderDto } from './create-order.dto';
 import { OrderQueryParams } from './order.param';
 import { Order } from './order.schema';
 import { OrdersService } from './orders.service';
+import { ApiCreateOrdersResponse } from './custom-decorator.swagger';
 
 @ApiTags('orders')
 @ApiBearerAuth()
@@ -26,6 +27,7 @@ import { OrdersService } from './orders.service';
 export class OrdersController {
   constructor(private readonly ordersService: OrdersService) {}
 
+  @ApiCreateOrdersResponse()
   @Roles(Role.User)
   @Post()
   async createOrder(
