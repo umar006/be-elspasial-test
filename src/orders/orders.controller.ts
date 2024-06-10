@@ -9,18 +9,19 @@ import {
   Req,
   UseGuards,
 } from '@nestjs/common';
-import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiExtraModels, ApiTags } from '@nestjs/swagger';
 import { RequestWithUser } from 'src/auth/auth.type';
 import { JwtGuard } from 'src/auth/jwt.guard';
 import { Roles } from 'src/auth/role.decorator';
 import { Role } from 'src/auth/role.enum';
 import { CreateOrderDto } from './create-order.dto';
 import { OrderQueryParams } from './order.param';
-import { OrderResponse } from './order.schema';
+import { Order, OrderResponse } from './order.schema';
 import { OrdersService } from './orders.service';
 
 @ApiTags('orders')
 @ApiBearerAuth()
+@ApiExtraModels(Order)
 @UseGuards(JwtGuard)
 @Controller('orders')
 export class OrdersController {
