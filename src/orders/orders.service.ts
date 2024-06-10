@@ -74,7 +74,11 @@ export class OrdersService {
 
       [order] = await this.db
         .update(orders)
-        .set({ status: OrderStatus.Processing, driverId: driverId })
+        .set({
+          status: OrderStatus.Processing,
+          driverId: driverId,
+          pickedupAt: new Date(),
+        })
         .where(sql`${orders.id} = ${orderId} and ${orders.driverId} is null`)
         .returning();
 
