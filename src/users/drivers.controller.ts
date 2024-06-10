@@ -5,6 +5,7 @@ import {
   ApiCreatedResponse,
   ApiExtraModels,
   ApiInternalServerErrorResponse,
+  ApiOkResponse,
   ApiTags,
 } from '@nestjs/swagger';
 import { DriversService } from './drivers.service';
@@ -64,6 +65,33 @@ export class DriversController {
   }
 
   @Post('login')
+  @ApiOkResponse({
+    description: 'success login user',
+    schema: {
+      example: {
+        token: 'longjwttoken',
+      },
+    },
+  })
+  @ApiBadRequestResponse({
+    description: 'validation error',
+    schema: {
+      example: {
+        message: ['username should not be empty'],
+        error: 'Bad Request',
+        statusCode: 400,
+      },
+    },
+  })
+  @ApiInternalServerErrorResponse({
+    description: 'something went wrong',
+    schema: {
+      example: {
+        message: 'Internal Server Error',
+        statusCode: 500,
+      },
+    },
+  })
   @HttpCode(HttpStatus.OK)
   async login(@Body() loginDto: LoginDriverDto): Promise<{ token: string }> {
     const resp = await this.driversService.login(loginDto);
