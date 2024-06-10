@@ -73,3 +73,26 @@ export const ApiGetOrderByIdResponse = () => {
     }),
   );
 };
+
+export const ApiGetOrdersResponse = () => {
+  return applyDecorators(
+    ApiOkResponse({
+      description: 'order list',
+      schema: {
+        example: [
+          {
+            id: 'mgtu1ivY6vArOEB-mTk8R',
+            createdAt: '2024-06-10T03:06:41.522Z',
+            pickedupAt: null,
+            arrivedAt: null,
+            pickup: 'gombong',
+            destination: 'yogyakarta',
+            status: 'waiting',
+            customerId: 'JnUTHlNJiJ9VHOoaGu7xF',
+            driverId: null,
+          },
+        ],
+      },
+    }),
+  );
+};

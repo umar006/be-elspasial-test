@@ -21,6 +21,7 @@ import { OrdersService } from './orders.service';
 import {
   ApiCreateOrderResponse,
   ApiGetOrderByIdResponse,
+  ApiGetOrdersResponse,
   ApiOrderErrorResponse,
 } from './custom-decorator.swagger';
 
@@ -57,6 +58,8 @@ export class OrdersController {
     return resp;
   }
 
+  @ApiGetOrdersResponse()
+  @ApiOrderErrorResponse()
   @Roles(Role.Driver)
   @Get()
   async getOrders(@Query() queryParams: OrderQueryParams): Promise<Order[]> {
