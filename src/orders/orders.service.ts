@@ -1,4 +1,9 @@
-import { Inject, Injectable, NotFoundException } from '@nestjs/common';
+import {
+  Inject,
+  Injectable,
+  NotFoundException,
+  UnprocessableEntityException,
+} from '@nestjs/common';
 import { eq, sql } from 'drizzle-orm';
 import { JwtPayload } from 'src/auth/auth.type';
 import {
@@ -59,12 +64,25 @@ export class OrdersService {
   async acceptOrderById(orderId: string, driver: JwtPayload): Promise<string> {
     const driverId = driver.sub;
 
-    const [order] = await this.db
-      .update(orders)
-      .set({ status: OrderStatus.Processing, driverId: driverId })
-      .where(eq(orders.id, orderId))
-      .returning();
-    if (!order) throw new NotFoundException('order is not found');
+    await this.db.transaction(async (trx) => {
+      let [order] = await trx
+        .select()
+        .from(orders)
+        .where(eq(orders.id, orderId));
+
+      if (!order) throw new NotFoundException('order is not found');
+
+      [order] = await this.db
+        .update(orders)
+        .set({ status: OrderStatus.Processing, driverId: driverId })
+        .where(sql`${orders.id} = ${orderId} and ${orders.driverId} is null`)
+        .returning();
+
+      if (!order)
+        throw new UnprocessableEntityException(
+          'order already accept by another driver',
+        );
+    });
 
     return 'success accept order';
   }
