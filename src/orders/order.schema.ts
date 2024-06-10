@@ -41,7 +41,7 @@ export class Order implements InferSelectModel<typeof orders> {
     return order;
   }
 
-  assignUser(userId: string): void {
+  assignUser?(userId: string): void {
     this.customerId = userId;
   }
 }
