@@ -1,7 +1,14 @@
-import { Inject, Injectable, UnauthorizedException } from '@nestjs/common';
+import {
+  ConflictException,
+  Inject,
+  Injectable,
+  InternalServerErrorException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import { eq } from 'drizzle-orm';
+import { PostgresError } from 'postgres';
 import {
   DRIZZLE_PROVIDER,
   DrizzlePostgres,
@@ -22,7 +29,17 @@ export class DriversService {
     const driver = Driver.fromDto(registerDto);
     await driver.encryptPassword();
 
-    await this.db.insert(users).values(driver);
+    try {
+      await this.db.insert(users).values(driver);
+    } catch (err) {
+      console.error(err);
+      if (err instanceof PostgresError) {
+        if (err.code === '23505') {
+          throw new ConflictException('username already exists');
+        }
+      }
+      throw new InternalServerErrorException();
+    }
 
     return 'success register driver';
   }
