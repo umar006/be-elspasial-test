@@ -1,9 +1,10 @@
 import { Request } from 'express';
+import { Role } from './role.enum';
 
 export type JwtPayload = {
   sub: number;
   username: string;
-  role: string;
+  role: Role;
   iat: number;
   exp: number;
 };
