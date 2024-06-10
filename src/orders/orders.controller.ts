@@ -9,6 +9,7 @@ import {
   Req,
   UseGuards,
 } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { RequestWithUser } from 'src/auth/auth.type';
 import { JwtGuard } from 'src/auth/jwt.guard';
 import { Roles } from 'src/auth/role.decorator';
@@ -18,6 +19,7 @@ import { OrderQueryParams } from './order.param';
 import { OrderResponse } from './order.schema';
 import { OrdersService } from './orders.service';
 
+@ApiTags('orders')
 @UseGuards(JwtGuard)
 @Controller('orders')
 export class OrdersController {
