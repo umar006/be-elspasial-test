@@ -11,6 +11,7 @@ async function bootstrap() {
     .setTitle('ElSpasial Test')
     .setDescription('ElSpasial Test API description')
     .setVersion('1.0')
+    .addBearerAuth()
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
