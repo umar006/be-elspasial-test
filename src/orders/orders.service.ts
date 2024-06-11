@@ -74,7 +74,7 @@ export class OrdersService {
         .set({
           status: OrderStatus.Processing,
           driverId: driverId,
-          pickedupAt: new Date(),
+          acceptedAt: new Date(),
         })
         .where(sql`${orders.id} = ${orderId} and ${orders.driverId} is null`)
         .returning();

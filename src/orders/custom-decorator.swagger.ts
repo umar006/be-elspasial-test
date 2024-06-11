@@ -65,8 +65,7 @@ export const ApiGetOrderByIdResponse = () => {
         example: {
           id: 'mgtu1ivY6vArOEB-mTk8R',
           createdAt: '2024-06-10T03:06:41.522Z',
-          pickedupAt: null,
-          arrivedAt: null,
+          acceptedAt: null,
           pickup: 'gombong',
           destination: 'yogyakarta',
           status: 'processing',
@@ -89,8 +88,7 @@ export const ApiGetOrdersResponse = () => {
           {
             id: 'mgtu1ivY6vArOEB-mTk8R',
             createdAt: '2024-06-10T03:06:41.522Z',
-            pickedupAt: null,
-            arrivedAt: null,
+            acceptedAt: null,
             pickup: 'gombong',
             destination: 'yogyakarta',
             status: 'waiting',

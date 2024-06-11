@@ -9,8 +9,7 @@ export const orders = pgTable('orders', {
   createdAt: timestamp('created_at', { withTimezone: true })
     .notNull()
     .defaultNow(),
-  pickedupAt: timestamp('pickedup_at', { withTimezone: true }),
-  arrivedAt: timestamp('arrived_at', { withTimezone: true }),
+  acceptedAt: timestamp('accepted_at', { withTimezone: true }),
   pickup: varchar('pickup').notNull(),
   destination: varchar('destination').notNull(),
   status: varchar('status').notNull().default('waiting'),
@@ -23,8 +22,7 @@ export const orders = pgTable('orders', {
 export class Order implements InferSelectModel<typeof orders> {
   id: string;
   createdAt: Date;
-  pickedupAt: Date;
-  arrivedAt: Date;
+  acceptedAt: Date;
   pickup: string;
   destination: string;
   status: string;
