@@ -11,6 +11,7 @@ async function bootstrap() {
     type: VersioningType.URI,
     defaultVersion: '1',
   });
+  app.enableCors();
 
   app.use(helmet());
   app.useGlobalPipes(new ValidationPipe({ transform: true }));
