@@ -8,6 +8,7 @@ import {
   ApiUnauthorizedResponse,
   ApiUnprocessableEntityResponse,
 } from '@nestjs/swagger';
+import { Order } from './order.schema';
 
 export const ApiOrderErrorResponse = () => {
   return applyDecorators(
@@ -59,6 +60,7 @@ export const ApiGetOrderByIdResponse = () => {
   return applyDecorators(
     ApiOkResponse({
       description: 'success create order',
+      type: Order,
       schema: {
         example: {
           id: 'mgtu1ivY6vArOEB-mTk8R',
@@ -80,6 +82,8 @@ export const ApiGetOrdersResponse = () => {
   return applyDecorators(
     ApiOkResponse({
       description: 'order list',
+      type: Order,
+      isArray: true,
       schema: {
         example: [
           {
