@@ -1,0 +1,555 @@
+openapi: 3.0.0
+paths:
+  /v1/users/register:
+    post:
+      operationId: UsersController_register
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegisterUserDto'
+      responses:
+        '201':
+          description: success register
+          content:
+            application/json:
+              schema:
+                example:
+                  message: success create user
+        '400':
+          description: validation error
+          content:
+            application/json:
+              schema:
+                example:
+                  message:
+                    - username should not be empty
+                  error: Bad Request
+                  statusCode: 400
+        '409':
+          description: username already exists
+          content:
+            application/json:
+              schema:
+                example:
+                  message: username already exists
+                  error: Conflict
+                  statusCode: 409
+        '500':
+          description: something went wrong
+          content:
+            application/json:
+              schema:
+                example:
+                  message: Internal Server Error
+                  statusCode: 500
+      tags:
+        - users
+  /v1/users/login:
+    post:
+      operationId: UsersController_login
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginDto'
+      responses:
+        '200':
+          description: success login user
+          content:
+            application/json:
+              schema:
+                example:
+                  token: longjwttoken
+        '400':
+          description: validation error
+          content:
+            application/json:
+              schema:
+                example:
+                  message:
+                    - username should not be empty
+                  error: Bad Request
+                  statusCode: 400
+        '401':
+          description: unauthorized
+          content:
+            application/json:
+              schema:
+                example:
+                  message: username or password is wrong
+                  error: Unauthorized
+                  statusCode: 401
+        '500':
+          description: something went wrong
+          content:
+            application/json:
+              schema:
+                example:
+                  message: Internal Server Error
+                  statusCode: 500
+      tags:
+        - users
+  /v1/drivers/register:
+    post:
+      operationId: DriversController_register
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegisterDriverDto'
+      responses:
+        '201':
+          description: success register
+          content:
+            application/json:
+              schema:
+                example:
+                  message: success create user
+        '400':
+          description: validation error
+          content:
+            application/json:
+              schema:
+                example:
+                  message:
+                    - username should not be empty
+                  error: Bad Request
+                  statusCode: 400
+        '409':
+          description: username already exists
+          content:
+            application/json:
+              schema:
+                example:
+                  message: username already exists
+                  error: Conflict
+                  statusCode: 409
+        '500':
+          description: something went wrong
+          content:
+            application/json:
+              schema:
+                example:
+                  message: Internal Server Error
+                  statusCode: 500
+      tags:
+        - drivers
+  /v1/drivers/login:
+    post:
+      operationId: DriversController_login
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginDriverDto'
+      responses:
+        '200':
+          description: success login user
+          content:
+            application/json:
+              schema:
+                example:
+                  token: longjwttoken
+        '400':
+          description: validation error
+          content:
+            application/json:
+              schema:
+                example:
+                  message:
+                    - username should not be empty
+                  error: Bad Request
+                  statusCode: 400
+        '401':
+          description: unauthorized
+          content:
+            application/json:
+              schema:
+                example:
+                  message: username or password is wrong
+                  error: Unauthorized
+                  statusCode: 401
+        '500':
+          description: something went wrong
+          content:
+            application/json:
+              schema:
+                example:
+                  message: Internal Server Error
+                  statusCode: 500
+      tags:
+        - drivers
+  /v1/orders:
+    post:
+      operationId: OrdersController_createOrder
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateOrderDto'
+      responses:
+        '201':
+          description: success create order
+          content:
+            application/json:
+              schema:
+                example:
+                  message: success create order
+        '401':
+          description: unauthorized
+          content:
+            application/json:
+              schema:
+                example:
+                  message: Unauthorized
+                  statusCode: 401
+        '403':
+          description: forbidden resource
+          content:
+            application/json:
+              schema:
+                example:
+                  message: Forbidden resource
+                  error: Forbindden
+                  statusCode: 403
+        '500':
+          description: something went wrong
+          content:
+            application/json:
+              schema:
+                example:
+                  message: Internal Server Error
+                  statusCode: 500
+      tags:
+        - orders
+      security:
+        - bearer: []
+    get:
+      operationId: OrdersController_getOrders
+      parameters:
+        - name: status
+          required: true
+          in: query
+          schema:
+            enum:
+              - waiting
+              - processing
+              - completed
+            type: string
+      responses:
+        '200':
+          description: order list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Order'
+                example:
+                  - id: mgtu1ivY6vArOEB-mTk8R
+                    createdAt: '2024-06-10T03:06:41.522Z'
+                    acceptedAt: null
+                    pickup: gombong
+                    destination: yogyakarta
+                    status: waiting
+                    customerId: JnUTHlNJiJ9VHOoaGu7xF
+                    driverId: null
+        '401':
+          description: unauthorized
+          content:
+            application/json:
+              schema:
+                example:
+                  message: Unauthorized
+                  statusCode: 401
+        '403':
+          description: forbidden resource
+          content:
+            application/json:
+              schema:
+                example:
+                  message: Forbidden resource
+                  error: Forbindden
+                  statusCode: 403
+        '500':
+          description: something went wrong
+          content:
+            application/json:
+              schema:
+                example:
+                  message: Internal Server Error
+                  statusCode: 500
+      tags:
+        - orders
+      security:
+        - bearer: []
+  /v1/orders/{id}:
+    get:
+      operationId: OrdersController_getOrderById
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: success create order
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+              example:
+                - id: mgtu1ivY6vArOEB-mTk8R
+                  createdAt: '2024-06-10T03:06:41.522Z'
+                  acceptedAt: null
+                  pickup: gombong
+                  destination: yogyakarta
+                  status: processing
+                  customerId: JnUTHlNJiJ9VHOoaGu7xF
+                  driverId: HGNmTiIRYdoNqeNn6Ef-k
+        '401':
+          description: unauthorized
+          content:
+            application/json:
+              schema:
+                example:
+                  message: Unauthorized
+                  statusCode: 401
+        '403':
+          description: forbidden resource
+          content:
+            application/json:
+              schema:
+                example:
+                  message: Forbidden resource
+                  error: Forbindden
+                  statusCode: 403
+        '500':
+          description: something went wrong
+          content:
+            application/json:
+              schema:
+                example:
+                  message: Internal Server Error
+                  statusCode: 500
+      tags:
+        - orders
+      security:
+        - bearer: []
+  /v1/orders/{id}/accept:
+    put:
+      operationId: OrdersController_acceptOrder
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+        '201':
+          description: accept order
+          content:
+            application/json:
+              schema:
+                example:
+                  message: success accept order
+        '401':
+          description: unauthorized
+          content:
+            application/json:
+              schema:
+                example:
+                  message: Unauthorized
+                  statusCode: 401
+        '403':
+          description: forbidden resource
+          content:
+            application/json:
+              schema:
+                example:
+                  message: Forbidden resource
+                  error: Forbindden
+                  statusCode: 403
+        '404':
+          description: ''
+          content:
+            application/json:
+              schema:
+                example:
+                  message: order is not found
+                  error: Not Found
+                  statusCode: 404
+        '422':
+          description: order already accept
+          content:
+            application/json:
+              schema:
+                example:
+                  message: order already accept by another driver
+                  error: Unprocessable
+                  statusCode: 422
+        '500':
+          description: something went wrong
+          content:
+            application/json:
+              schema:
+                example:
+                  message: Internal Server Error
+                  statusCode: 500
+      tags:
+        - orders
+      security:
+        - bearer: []
+info:
+  title: ElSpasial Test
+  description: ElSpasial Test API description
+  version: '1.0'
+  contact: {}
+tags: []
+servers:
+  - url: http://localhost:3000
+    variables: {}
+components:
+  securitySchemes:
+    bearer:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+        createdAt:
+          format: date-time
+          type: string
+        username:
+          type: string
+        password:
+          type: string
+        role:
+          type: string
+          enum:
+            - user
+            - driver
+      required:
+        - id
+        - createdAt
+        - username
+        - password
+        - role
+    RegisterUserDto:
+      type: object
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+      required:
+        - username
+        - password
+    LoginDto:
+      type: object
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+      required:
+        - username
+        - password
+    Driver:
+      type: object
+      properties:
+        id:
+          type: string
+        createdAt:
+          format: date-time
+          type: string
+        username:
+          type: string
+        password:
+          type: string
+        role:
+          type: string
+      required:
+        - id
+        - createdAt
+        - username
+        - password
+        - role
+    RegisterDriverDto:
+      type: object
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+      required:
+        - username
+        - password
+    LoginDriverDto:
+      type: object
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+      required:
+        - username
+        - password
+    CreateOrderDto:
+      type: object
+      properties:
+        pickup:
+          type: string
+        destination:
+          type: string
+      required:
+        - pickup
+        - destination
+    Order:
+      type: object
+      properties:
+        id:
+          type: string
+        createdAt:
+          format: date-time
+          type: string
+        acceptedAt:
+          format: date-time
+          type: string
+        pickup:
+          type: string
+        destination:
+          type: string
+        status:
+          type: string
+        customerId:
+          type: string
+        driverId:
+          type: string
+      required:
+        - id
+        - createdAt
+        - acceptedAt
+        - pickup
+        - destination
+        - status
+        - customerId
+        - driverId
